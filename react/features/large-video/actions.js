@@ -5,7 +5,7 @@ import {
     sendAnalytics
 } from '../analytics';
 import { _handleParticipantError } from '../base/conference';
-import { MEDIA_TYPE } from '../base/media';
+import { MEDIA_TYPE, VIDEO_TYPE } from '../base/media';
 import { getParticipants } from '../base/participants';
 import { reportError } from '../base/util';
 import { shouldDisplayTileView } from '../video-layout';
