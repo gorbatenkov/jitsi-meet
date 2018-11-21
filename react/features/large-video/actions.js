@@ -15,6 +15,8 @@ import {
     UPDATE_KNOWN_LARGE_VIDEO_RESOLUTION
 } from './actionTypes';
 
+const logger = require('jitsi-meet-logger').getLogger(__filename);
+
 declare var APP: Object;
 
 /**
@@ -112,9 +114,15 @@ function _electLastVisibleRemoteVideo(tracks) {
  * @returns {(Track|undefined)}
  */
 function _electLastVisibleRemoteScreen(tracks) {
+    logger.info('!!! _electLastVisibleRemoteScreen !!!!');
+    
     // First we try to get most recent remote screen track.
     for (let i = tracks.length - 1; i >= 0; --i) {
         const track = tracks[i];
+        
+        logger.info('!!! Check track: !!!!', track);
+        logger.info('!!! Media type track: !!!!', track.mediaType, MEDIA_TYPE.VIDEO);
+        logger.info('!!! Video type track: !!!!', track.videoType, VIDEO_TYPE.DESKTOP);
 
         if (!track.local && track.mediaType === MEDIA_TYPE.VIDEO && track.videoType === VIDEO_TYPE.DESKTOP) {
             return track;
@@ -132,9 +140,14 @@ function _electLastVisibleRemoteScreen(tracks) {
  * @returns {(string|undefined)}
  */
 function _electParticipantInLargeVideo(state) {
+    logger.info('!!! _electParticipantInLargeVideo !!!!');
+    
     // 0. Try to select the remote participant who had visible screen.
     const tracks = state['features/base/tracks'];
     const screenTrack = _electLastVisibleRemoteScreen(tracks);
+    
+    logger.info('!!! Got track !!!!', screenTrack);
+    
     let id = screenTrack && screenTrack.participantId;
 
     if (!id) {
