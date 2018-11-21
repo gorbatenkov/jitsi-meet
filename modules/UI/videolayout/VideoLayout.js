@@ -928,23 +928,19 @@ const VideoLayout = {
             return;
         }
         
-        logger.info('!!! updateLargeVideo !!!!', id, forceUpdate);
-
         // Try to load screen tracks
         const tracks = APP.store.getState()['features/base/tracks'];
-
-        logger.info('!!! Got tracks !!!!', tracks);
+        logger.info('!!! Got updateLargeVideo tracks !!!!', tracks);
 
         // First we try to get most recent remote screen track.
         for (let i = tracks.length - 1; i >= 0; --i) {
             const track = tracks[i];
-
             if (!track.local && track.mediaType === 'video') {
                 logger.info('!!! Video track type !!!!', this.getRemoteVideoType(track.participantId));
-
-                if (track.videoType === 'desktop') {
+                if (this.getRemoteVideoType(track.participantId) === 'desktop') {
                     logger.info('!!! Got track: !!!!', track);
                     id = track.participantId;
+                    break;
                 }
             }
         }
