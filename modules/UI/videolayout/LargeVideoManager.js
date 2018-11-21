@@ -335,26 +335,6 @@ export default class LargeVideoManager {
      * @returns {Promise}
      */
     updateLargeVideo(userID, stream, videoType) {
-        logger.info('!!! updateLargeVideo !!!!', userID, stream, videoType);
-
-        // Try to load screen tracks
-        const tracks = APP.store.getState()['features/base/tracks'];
-
-        logger.info('!!! Got tracks !!!!', tracks);
-
-        // First we try to get most recent remote screen track.
-        for (let i = tracks.length - 1; i >= 0; --i) {
-            const track = tracks[i];
-
-            logger.info('!!! Check track: !!!!', track);
-
-            if (!track.local && track.mediaType === 'video' && track.videoType === 'desktop') {
-                logger.info('!!! Check track: !!!!', track);
-
-                userID = track.participantId;
-            }
-        }
-        
         if (this.newStreamData) {
             this.newStreamData.reject();
         }
